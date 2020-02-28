@@ -11,15 +11,15 @@
 
                 <div class="flex-container">
                     <label for="Height">Height</label>
-                    <input type="number" id="Height" placeholder="Height" @bind-value="height" min="1" max="299" step="1"/>
+                    <input type="number" id="Height" placeholder="Height" @bind-value="height" min="1" max="299" step="1" />
                 </div>
                 <div class="flex-container">
                     <label for="Weight">Weight</label>
-                    <input type="number" id="Weight" placeholder="Weight" @bind-value="weight" min="1" max="300" step="0.5"/>
+                    <input type="number" id="Weight" placeholder="Weight" @bind-value="weight" min="1" max="300" step="0.5" />
                 </div>
                 <div class="flex-container">
                     <label for="Age">Age</label>
-                    <input type="number" id="Age" placeholder="Age" @bind-value="age" min="1" max="199" step="1"/>
+                    <input type="number" id="Age" placeholder="Age" @bind-value="age" min="1" max="199" step="1" />
                 </div>
                 <div class="flex-container">
                     <label for="Gender">Gender</label>
@@ -29,7 +29,7 @@
                     </select>
                 </div>
 
-                <p id="message" style="color:@messageColor">@message</p>
+                <p id="maintenance-message" style="color:@maintenanceMessageColor">@maintenanceMessage</p>
 
                 <div class="flex-container">
                     <label for="Result">Result</label>
@@ -44,52 +44,83 @@
 
             <div id="pal-calculator">
 
-                @for(int i = 0; i < Excercises.Count; i++)
+                @foreach (Excercise excercise in Excercises)
                 {
-                <div class="flex-container">
-                    <label>Excercise</label>
-                    <select @bind="Excercises[i].PAL">
-                        <option value="4">Cycling 12km/h</option>
-                        <option value="6">Cycling 16km/h</option>
-                        <option value="8">Cycling 20km/h</option>
-                        <option value="10">Cycling 24km/h</option>
-                        <option value="12">Cycling 28km/h</option>
-                        <option value="6">Swimming-slow</option>
-                        <option value="8">Swimming-medium</option>
-                        <option value="10">Swimming-fast</option>
-                        <option value="3">Walking, Nordic Walking 4km/h</option>
-                        <option value="3.8">Walking, Nordic Walking 5.5km/h</option>
-                        <option value="6.3">Walking, Nordic Walking 7km/h</option>
-                        <option value="8">Walking, Nordic Walking 8km/h</option>
-                        <option value="6">Jogging 6km/h</option>
-                        <option value="8.3">Jogging 8km/h</option>
-                        <option value="10">Jogging 10km/h</option>
-                        <option value="11.8">Jogging 12km/h</option>
-                        <option value="13.5">Jogging 14km/h</option>
-                        <option value="6.5">Aerobics, Gymnastic</option>
-                        <option value="7.5">Strength Training</option>
-                        <option value="7">Tennis, Badminton, Squash</option>
-                        <option value="7.5">Team Sports(Football, Soccer, Basketball...)</option>
-                        <option value="8">Martial Arts</option>
-                        <option value="8">Winter Sports</option>
-                        <option value="3">Other - very low intensity</option>
-                        <option value="4.5">Other - low intensity</option>
-                        <option value="6">Other - medium intensity</option>
-                        <option value="7.5">Other - high intensity</option>
-                        <option value="9">Other - very high intensity</option>
-                    </select>
-                    <label>Hours</label>
-                    <input type="number" @bind="Excercises[i].Time" min="0" max="24" step="0.5" />
-                </div>
+                    <div class="flex-container">
+                        <label>Excercise</label>
+                        <select @bind="excercise.PAL">
+                            <option value="4" selected>Cycling 12km/h</option>
+                            <option value="6">Cycling 16km/h</option>
+                            <option value="8">Cycling 20km/h</option>
+                            <option value="10">Cycling 24km/h</option>
+                            <option value="12">Cycling 28km/h</option>
+                            <option value="6">Swimming-slow</option>
+                            <option value="8">Swimming-medium</option>
+                            <option value="10">Swimming-fast</option>
+                            <option value="3">Walking, Nordic Walking 4km/h</option>
+                            <option value="3,8">Walking, Nordic Walking 5.5km/h</option>
+                            <option value="6,3">Walking, Nordic Walking 7km/h</option>
+                            <option value="8">Walking, Nordic Walking 8km/h</option>
+                            <option value="6">Jogging 6km/h</option>
+                            <option value="8,3">Jogging 8km/h</option>
+                            <option value="10">Jogging 10km/h</option>
+                            <option value="11,8">Jogging 12km/h</option>
+                            <option value="13,5">Jogging 14km/h</option>
+                            <option value="6,5">Aerobics, Gymnastic</option>
+                            <option value="7,5">Strength Training</option>
+                            <option value="7">Tennis, Badminton, Squash</option>
+                            <option value="7,5">Team Sports(Football, Soccer, Basketball...)</option>
+                            <option value="8">Martial Arts</option>
+                            <option value="8">Winter Sports</option>
+                            <option value="3">Other - very low intensity</option>
+                            <option value="4,5">Other - low intensity</option>
+                            <option value="6">Other - medium intensity</option>
+                            <option value="7,5">Other - high intensity</option>
+                            <option value="9">Other - very high intensity</option>
+                        </select>
+                        <label>Hours</label>
+                        <input type="number" @bind-value="excercise.Time" min="0" max="24" step="0.5" />
+                    </div>
                 }
 
+                <div class="flex-container">
+                    <label for="Work">Work</label>
+                    <select id="Work" @bind="workLevel">
+                        <option value="1,5">überwiegend sitzend, kaum Bewegung (z.B. Bürojob am Schreibtisch)</option>
+                        <option value="2">größtenteils sitzend, teilweise stehend, gehend (z.B. Kraftfahrer, Student)</option>
+                        <option value="3">überwiegend gehend, stehend (z.B. Verkäufer, Kellner, Hausfrau, Bäcker)</option>
+                        <option value="4,5">körperlich anstrengend (z.B. Landwirte, Handwerker, Bergleute)</option>
+                        <option value="6">körperlich sehr anstrengend (z.B. Umzugshelfer, Forstarbeiter)</option>
+                    </select>
+                    <label for="Work-Time">Hours</label>
+                    <input type="number" id="Work-Time" @bind-value="workTime" min="0" max="24" step="0.5" />
+
+                </div>
 
                 <div class="flex-container">
-                    <button disabled="@palButtonDisabled">PAL</button>
-                    <em><p style="color:@green">@(palButtonDisabled ? "Calculate Maintenance First!" : "")</p></em>
+                    <label for="Sleep">Sleep</label>
+                    <input type="text" value="Schlaf" readonly id="Sleep" />
+                    <label for="Sleep-Time">Hours</label>
+                    <input type="number" id="Sleep-Time" @bind="sleepTime" min="0" max="24" step="0.5" />
+
+                </div>
+
+                <div class="flex-container">
+                    <button @onclick="() => OnAddClick()">Add</button>
                 </div>
 
 
+                <p id="pal-message" style="color:@palMessageColor">@palMessage</p>
+
+                <div class="flex-container">
+                    <label for="PAL-Result">PAL-Result</label>
+                    <input type="text" readonly id="PAL-Result" value="@palResult" />
+                </div>
+
+                <div class="flex-container">
+                    <button disabled="@palButtonDisabled" @onclick="() => OnPALCalculateClick()">PAL</button>
+                    <em><p style="color:@green">@(palButtonDisabled ? "Calculate Maintenance First!" : "")</p></em>
+                </div>
 
             </div>
 
@@ -115,26 +146,39 @@
     private string gender = "m";
 
     private string maintenanceResult = "";
+    private string palResult = "";
     private bool palButtonDisabled => maintenanceResult == "" || maintenanceResult == "NaN";
 
-    private string message = "";
-    private string messageColor = "";
+    private string palMessage = "";
+    private string maintenanceMessage = "";
+
+    private string maintenanceMessageColor = "";
+    private string palMessageColor = "";
 
     List<Excercise> Excercises = new List<Excercise>();
 
+    double workLevel = 0;
+    double workTime = 0;
 
-    protected override async Task OnInitializedAsync()
+    double sleepTime = 0;
+
+
+    protected override void OnInitialized()
     {
-        Excercises.Add(new Excercise());
+        Excercises.Add(new Excercise()
+        {
+            PAL = 4,
+            Time = 0,
+        });
     }
 
-    private async Task OnCalculateMaintenanceClick()
+    private void OnCalculateMaintenanceClick()
     {
         if (weight > 0 && height > 0 && age > 0)
         {
 
-            messageColor = green;
-            message = "";
+            maintenanceMessageColor = green;
+            maintenanceMessage = "";
 
             switch (gender)
             {
@@ -152,10 +196,62 @@
         }
         else
         {
-            messageColor = red;
-            message = "Invalid Inputs detected";
+            maintenanceMessageColor = red;
+            maintenanceMessage = "Invalid Inputs detected";
             maintenanceResult = "NaN";
         }
     }
+
+    private void OnPALCalculateClick()
+    {
+        double timeTotal = 0;
+        double levelTotal = 0;
+
+        foreach (Excercise excercise in Excercises)
+        {
+            timeTotal += excercise.Time;
+            levelTotal += excercise.PAL * excercise.Time;
+        }
+
+        levelTotal += sleepTime * 0.95;
+        timeTotal += sleepTime;
+
+        levelTotal += workTime * workLevel;
+        timeTotal += workTime;
+
+        if(timeTotal > 24)
+        {
+            palMessageColor = red;
+            palMessage = "Time is more than 24 Hours";
+            palResult = "NaN";
+        }
+        else
+        {
+            levelTotal += (24 - timeTotal) * 1.2;
+            levelTotal /= 24;
+            int.TryParse(maintenanceResult, out int result);
+
+            var palResultNumber = result + ( (levelTotal - 1) * result);
+
+            palResultNumber = Math.Round(palResultNumber);
+
+            palResult = palResultNumber.ToString();
+        }
+    }
+
+    private void OnAddClick()
+    {
+        Excercise excercise = new Excercise()
+        {
+            PAL = 4,
+            Time = 0,
+        };
+
+        Excercises.Add(excercise);
+
+        StateHasChanged();
+    }
+
+}
 
 }
