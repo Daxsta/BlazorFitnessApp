@@ -1,0 +1,32 @@
+﻿body {
+  font-family: 'Nunito', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  background-color: #ddd;
+  color: #333; }
+
+.content {
+  padding: 10px; }
+
+#page {
+  display: grid;
+  grid-template-rows: 5% 80% 15%;
+  grid-template-columns: 20% 60% 20%;
+  grid-template-areas: "top-row top-row top-row" "left-side main right-side" "bottom-row bottom-row bottom-row"; }
+
+.card {
+  grid-area: main;
+  background-color: #ddd; }
+
+.card-body {
+  display: grid;
+  grid-auto-rows: 1fr;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: "left right"; }
+
+#maintenance-calculator {
+  grid-area: left; }
+
+#pal-calculator {
+  grid-area: right; }
+
+.flex-container {
+  display: flex; }

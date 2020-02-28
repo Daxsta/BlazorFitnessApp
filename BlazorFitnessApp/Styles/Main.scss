@@ -1,0 +1,11 @@
+﻿@import "Variables";
+
+body {
+    font-family: 'Nunito', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-color: $color-background;
+    color: $color-font;
+}
+
+.content{
+    padding:10px;
+}

@@ -1,0 +1,14 @@
+﻿[
+  {
+    "outputFile": "wwwroot/css/Main.css",
+    "inputFile": "Styles/Main.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/Calories.css",
+    "inputFile": "Styles/Calories.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/Variables.css",
+    "inputFile": "Styles/Variables.scss"
+  }
+]
