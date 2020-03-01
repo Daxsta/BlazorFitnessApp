@@ -1,137 +1,134 @@
 ﻿@page "/calories"
 
 
-<div id="page">
+    <div id="calories-content">
 
-    <div class="card">
-        <div class="card-body">
+        <div id="maintenance-calculator" class="calculator">
 
+            <div class="flex-container">
+                <label for="Height">Height</label>
+                @*<input type="number" id="Height" placeholder="Height" @bind-value="height" min="1" max="299" step="1" />*@
+                <input type="range" min="80" max="240" step="1" class="slider" @bind-value="height" @oninput="(e) => OnHeightChange(e)" />
+                <p>@height</p>
+            </div>
 
-            <div id="maintenance-calculator">
+            <div class="flex-container">
+                <label for="Weight">Weight</label>
+                @*<input type="number" id="Weight" placeholder="Weight" @bind-value="weight" min="1" max="300" step="0.5" />*@
+                <input type="range" min="30" max="150" step="1" class="slider" @bind-value="weight"/>
+                <p>@weight</p>
+            </div>
 
+            <div class="flex-container">
+                <label for="Age">Age</label>
+                @*<input type="number" id="Age" placeholder="Age" @bind-value="age" min="1" max="199" step="1" />*@
+                <input type="range" min="18" max="99" step="1" class="slider" @bind-value="age" />
+                <p>@age</p>
+            </div>
+
+            <div class="flex-container">
+                <label for="Gender">Gender</label>
+                <select @bind="gender" id="Gender">
+                    <option value="m">Male</option>
+                    <option value="f">Female</option>
+                </select>
+            </div>
+
+            <p id="maintenance-message" style="color:@maintenanceMessageColor">@maintenanceMessage</p>
+
+            <div class="flex-container">
+                <label for="Result">Result</label>
+                <input type="text" readonly id="Result" value="@maintenanceResult" />
+            </div>
+
+            <div class="flex-container">
+                <button @onclick="() => OnCalculateMaintenanceClick()">Result</button>
+            </div>
+
+        </div>
+
+        <div id="pal-calculator" class="calculator">
+
+            @foreach (Excercise excercise in Excercises)
+            {
                 <div class="flex-container">
-                    <label for="Height">Height</label>
-                    <input type="number" id="Height" placeholder="Height" @bind-value="height" min="1" max="299" step="1" />
-                </div>
-                <div class="flex-container">
-                    <label for="Weight">Weight</label>
-                    <input type="number" id="Weight" placeholder="Weight" @bind-value="weight" min="1" max="300" step="0.5" />
-                </div>
-                <div class="flex-container">
-                    <label for="Age">Age</label>
-                    <input type="number" id="Age" placeholder="Age" @bind-value="age" min="1" max="199" step="1" />
-                </div>
-                <div class="flex-container">
-                    <label for="Gender">Gender</label>
-                    <select @bind="gender" id="Gender">
-                        <option value="m">Male</option>
-                        <option value="f">Female</option>
+                    <label>Excercise</label>
+                    <select @bind="excercise.PAL">
+                        <option value="4" selected>Cycling 12km/h</option>
+                        <option value="6">Cycling 16km/h</option>
+                        <option value="8">Cycling 20km/h</option>
+                        <option value="10">Cycling 24km/h</option>
+                        <option value="12">Cycling 28km/h</option>
+                        <option value="6">Swimming-slow</option>
+                        <option value="8">Swimming-medium</option>
+                        <option value="10">Swimming-fast</option>
+                        <option value="3">Walking, Nordic Walking 4km/h</option>
+                        <option value="3,8">Walking, Nordic Walking 5.5km/h</option>
+                        <option value="6,3">Walking, Nordic Walking 7km/h</option>
+                        <option value="8">Walking, Nordic Walking 8km/h</option>
+                        <option value="6">Jogging 6km/h</option>
+                        <option value="8,3">Jogging 8km/h</option>
+                        <option value="10">Jogging 10km/h</option>
+                        <option value="11,8">Jogging 12km/h</option>
+                        <option value="13,5">Jogging 14km/h</option>
+                        <option value="6,5">Aerobics, Gymnastic</option>
+                        <option value="7,5">Strength Training</option>
+                        <option value="7">Tennis, Badminton, Squash</option>
+                        <option value="7,5">Team Sports(Football, Soccer, Basketball...)</option>
+                        <option value="8">Martial Arts</option>
+                        <option value="8">Winter Sports</option>
+                        <option value="3">Other - very low intensity</option>
+                        <option value="4,5">Other - low intensity</option>
+                        <option value="6">Other - medium intensity</option>
+                        <option value="7,5">Other - high intensity</option>
+                        <option value="9">Other - very high intensity</option>
                     </select>
+                    <label>Hours</label>
+                    <input type="number" @bind-value="excercise.Time" min="0" max="24" step="0.5" />
                 </div>
+            }
 
-                <p id="maintenance-message" style="color:@maintenanceMessageColor">@maintenanceMessage</p>
-
-                <div class="flex-container">
-                    <label for="Result">Result</label>
-                    <input type="text" readonly id="Result" value="@maintenanceResult" />
-                </div>
-
-                <div class="flex-container">
-                    <button @onclick="() => OnCalculateMaintenanceClick()">Result</button>
-                </div>
+            <div class="flex-container">
+                <label for="Work">Work</label>
+                <select id="Work" @bind="workLevel">
+                    <option value="1,5">überwiegend sitzend, kaum Bewegung (z.B. Bürojob am Schreibtisch)</option>
+                    <option value="2">größtenteils sitzend, teilweise stehend, gehend (z.B. Kraftfahrer, Student)</option>
+                    <option value="3">überwiegend gehend, stehend (z.B. Verkäufer, Kellner, Hausfrau, Bäcker)</option>
+                    <option value="4,5">körperlich anstrengend (z.B. Landwirte, Handwerker, Bergleute)</option>
+                    <option value="6">körperlich sehr anstrengend (z.B. Umzugshelfer, Forstarbeiter)</option>
+                </select>
+                <label for="Work-Time">Hours</label>
+                <input type="number" id="Work-Time" @bind-value="workTime" min="0" max="24" step="0.5" />
 
             </div>
 
-            <div id="pal-calculator">
+            <div class="flex-container">
+                <label for="Sleep">Sleep</label>
+                <input type="text" value="Schlaf" readonly id="Sleep" />
+                <label for="Sleep-Time">Hours</label>
+                <input type="number" id="Sleep-Time" @bind="sleepTime" min="0" max="24" step="0.5" />
 
-                @foreach (Excercise excercise in Excercises)
-                {
-                    <div class="flex-container">
-                        <label>Excercise</label>
-                        <select @bind="excercise.PAL">
-                            <option value="4" selected>Cycling 12km/h</option>
-                            <option value="6">Cycling 16km/h</option>
-                            <option value="8">Cycling 20km/h</option>
-                            <option value="10">Cycling 24km/h</option>
-                            <option value="12">Cycling 28km/h</option>
-                            <option value="6">Swimming-slow</option>
-                            <option value="8">Swimming-medium</option>
-                            <option value="10">Swimming-fast</option>
-                            <option value="3">Walking, Nordic Walking 4km/h</option>
-                            <option value="3,8">Walking, Nordic Walking 5.5km/h</option>
-                            <option value="6,3">Walking, Nordic Walking 7km/h</option>
-                            <option value="8">Walking, Nordic Walking 8km/h</option>
-                            <option value="6">Jogging 6km/h</option>
-                            <option value="8,3">Jogging 8km/h</option>
-                            <option value="10">Jogging 10km/h</option>
-                            <option value="11,8">Jogging 12km/h</option>
-                            <option value="13,5">Jogging 14km/h</option>
-                            <option value="6,5">Aerobics, Gymnastic</option>
-                            <option value="7,5">Strength Training</option>
-                            <option value="7">Tennis, Badminton, Squash</option>
-                            <option value="7,5">Team Sports(Football, Soccer, Basketball...)</option>
-                            <option value="8">Martial Arts</option>
-                            <option value="8">Winter Sports</option>
-                            <option value="3">Other - very low intensity</option>
-                            <option value="4,5">Other - low intensity</option>
-                            <option value="6">Other - medium intensity</option>
-                            <option value="7,5">Other - high intensity</option>
-                            <option value="9">Other - very high intensity</option>
-                        </select>
-                        <label>Hours</label>
-                        <input type="number" @bind-value="excercise.Time" min="0" max="24" step="0.5" />
-                    </div>
-                }
+            </div>
 
-                <div class="flex-container">
-                    <label for="Work">Work</label>
-                    <select id="Work" @bind="workLevel">
-                        <option value="1,5">überwiegend sitzend, kaum Bewegung (z.B. Bürojob am Schreibtisch)</option>
-                        <option value="2">größtenteils sitzend, teilweise stehend, gehend (z.B. Kraftfahrer, Student)</option>
-                        <option value="3">überwiegend gehend, stehend (z.B. Verkäufer, Kellner, Hausfrau, Bäcker)</option>
-                        <option value="4,5">körperlich anstrengend (z.B. Landwirte, Handwerker, Bergleute)</option>
-                        <option value="6">körperlich sehr anstrengend (z.B. Umzugshelfer, Forstarbeiter)</option>
-                    </select>
-                    <label for="Work-Time">Hours</label>
-                    <input type="number" id="Work-Time" @bind-value="workTime" min="0" max="24" step="0.5" />
-
-                </div>
-
-                <div class="flex-container">
-                    <label for="Sleep">Sleep</label>
-                    <input type="text" value="Schlaf" readonly id="Sleep" />
-                    <label for="Sleep-Time">Hours</label>
-                    <input type="number" id="Sleep-Time" @bind="sleepTime" min="0" max="24" step="0.5" />
-
-                </div>
-
-                <div class="flex-container">
-                    <button @onclick="() => OnAddClick()">Add</button>
-                </div>
+            <div class="flex-container">
+                <button @onclick="() => OnAddClick()">Add</button>
+            </div>
 
 
-                <p id="pal-message" style="color:@palMessageColor">@palMessage</p>
+            <p id="pal-message" style="color:@palMessageColor">@palMessage</p>
 
-                <div class="flex-container">
-                    <label for="PAL-Result">PAL-Result</label>
-                    <input type="text" readonly id="PAL-Result" value="@palResult" />
-                </div>
+            <div class="flex-container">
+                <label for="PAL-Result">PAL-Result</label>
+                <input type="text" readonly id="PAL-Result" value="@palResult" />
+            </div>
 
-                <div class="flex-container">
-                    <button disabled="@palButtonDisabled" @onclick="() => OnPALCalculateClick()">PAL</button>
-                    <em><p style="color:@green">@(palButtonDisabled ? "Calculate Maintenance First!" : "")</p></em>
-                </div>
-
+            <div class="flex-container">
+                <button disabled="@palButtonDisabled" @onclick="() => OnPALCalculateClick()">PAL</button>
+                <em><p style="color:@green">@(palButtonDisabled ? "Calculate Maintenance First!" : "")</p></em>
             </div>
 
         </div>
     </div>
-
-
-
-
-
-</div>
 
 
 
@@ -165,6 +162,11 @@
 
     protected override void OnInitialized()
     {
+        age = 24;
+        height = 183;
+        weight = 69;
+
+
         Excercises.Add(new Excercise()
         {
             PAL = 4,
@@ -219,7 +221,7 @@
         levelTotal += workTime * workLevel;
         timeTotal += workTime;
 
-        if(timeTotal > 24)
+        if (timeTotal > 24)
         {
             palMessageColor = red;
             palMessage = "Time is more than 24 Hours";
@@ -231,7 +233,7 @@
             levelTotal /= 24;
             int.TryParse(maintenanceResult, out int result);
 
-            var palResultNumber = result + ( (levelTotal - 1) * result);
+            var palResultNumber = result + ((levelTotal - 1) * result);
 
             palResultNumber = Math.Round(palResultNumber);
 
@@ -252,6 +254,11 @@
         StateHasChanged();
     }
 
-}
+    private void OnHeightChange(ChangeEventArgs e)
+    {
+        int.TryParse(e.Value.ToString(), out int value);
+
+        height = value;
+    }
 
 }

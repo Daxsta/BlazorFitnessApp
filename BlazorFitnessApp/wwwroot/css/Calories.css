@@ -1,32 +1,37 @@
-﻿body {
-  font-family: 'Nunito', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  background-color: #ddd;
-  color: #333; }
+﻿* {
+  box-sizing: border-box; }
 
-.content {
-  padding: 10px; }
-
-#page {
+#calories-content {
   display: grid;
-  grid-template-rows: 5% 80% 15%;
-  grid-template-columns: 20% 60% 20%;
-  grid-template-areas: "top-row top-row top-row" "left-side main right-side" "bottom-row bottom-row bottom-row"; }
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); }
 
-.card {
-  grid-area: main;
-  background-color: #ddd; }
-
-.card-body {
-  display: grid;
-  grid-auto-rows: 1fr;
-  grid-template-columns: 1fr 1fr;
-  grid-template-areas: "left right"; }
+.calculator {
+  margin: 10px; }
 
 #maintenance-calculator {
-  grid-area: left; }
+  background-color: red; }
 
 #pal-calculator {
-  grid-area: right; }
+  background-color: blue; }
 
 .flex-container {
   display: flex; }
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+  background: #666;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s; }
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #0dc4b4;
+  cursor: pointer; }
