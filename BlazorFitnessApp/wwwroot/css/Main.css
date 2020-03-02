@@ -3,5 +3,8 @@
   background-color: #ddd;
   color: #333; }
 
+Navbar {
+  position: static; }
+
 .content {
   padding: 10px; }

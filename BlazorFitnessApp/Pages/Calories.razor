@@ -1,5 +1,6 @@
 ﻿@page "/calories"
 
+@using BlazorFitnessApp.Models
 
     <div id="calories-content">
 
@@ -7,30 +8,27 @@
 
             <div class="flex-container">
                 <label for="Height">Height</label>
-                @*<input type="number" id="Height" placeholder="Height" @bind-value="height" min="1" max="299" step="1" />*@
-                <input type="range" min="80" max="240" step="1" class="slider" @bind-value="height" @oninput="(e) => OnHeightChange(e)" />
-                <p>@height</p>
+                <input type="range" min="80" max="240" step="0,5" class="slider" @bind-value="CaloricData.Height" @oninput="(e) => OnHeightChange(e)" />
+                <p>@CaloricData.Height</p>
             </div>
 
             <div class="flex-container">
                 <label for="Weight">Weight</label>
-                @*<input type="number" id="Weight" placeholder="Weight" @bind-value="weight" min="1" max="300" step="0.5" />*@
-                <input type="range" min="30" max="150" step="1" class="slider" @bind-value="weight"/>
-                <p>@weight</p>
+                <input type="range" min="30" max="150" step="0,5" class="slider" @bind-value="CaloricData.Weight" @oninput="(e) => OnWeightChange(e)"/>
+                <p>@CaloricData.Weight</p>
             </div>
 
             <div class="flex-container">
                 <label for="Age">Age</label>
-                @*<input type="number" id="Age" placeholder="Age" @bind-value="age" min="1" max="199" step="1" />*@
-                <input type="range" min="18" max="99" step="1" class="slider" @bind-value="age" />
-                <p>@age</p>
+                <input type="range" min="18" max="99" step="1" class="slider" @bind-value="CaloricData.Age" @oninput="(e) => OnAgeChange(e)" />
+                <p>@CaloricData.Age</p>
             </div>
 
             <div class="flex-container">
                 <label for="Gender">Gender</label>
-                <select @bind="gender" id="Gender">
-                    <option value="m">Male</option>
-                    <option value="f">Female</option>
+                <select @bind="CaloricData.Gender" id="Gender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
                 </select>
             </div>
 
@@ -38,7 +36,7 @@
 
             <div class="flex-container">
                 <label for="Result">Result</label>
-                <input type="text" readonly id="Result" value="@maintenanceResult" />
+                <input type="text" readonly id="Result" value="@CaloricData.Maintenance" />
             </div>
 
             <div class="flex-container">
@@ -49,7 +47,7 @@
 
         <div id="pal-calculator" class="calculator">
 
-            @foreach (Excercise excercise in Excercises)
+            @foreach (Excercise excercise in CaloricData.Excercises)
             {
                 <div class="flex-container">
                     <label>Excercise</label>
@@ -83,32 +81,27 @@
                         <option value="7,5">Other - high intensity</option>
                         <option value="9">Other - very high intensity</option>
                     </select>
-                    <label>Hours</label>
-                    <input type="number" @bind-value="excercise.Time" min="0" max="24" step="0.5" />
+                    <input type="range" @bind-value="excercise.Time" min="0" max="24" step="0,5" />
                 </div>
             }
 
-            <div class="flex-container">
-                <label for="Work">Work</label>
-                <select id="Work" @bind="workLevel">
-                    <option value="1,5">überwiegend sitzend, kaum Bewegung (z.B. Bürojob am Schreibtisch)</option>
-                    <option value="2">größtenteils sitzend, teilweise stehend, gehend (z.B. Kraftfahrer, Student)</option>
-                    <option value="3">überwiegend gehend, stehend (z.B. Verkäufer, Kellner, Hausfrau, Bäcker)</option>
-                    <option value="4,5">körperlich anstrengend (z.B. Landwirte, Handwerker, Bergleute)</option>
-                    <option value="6">körperlich sehr anstrengend (z.B. Umzugshelfer, Forstarbeiter)</option>
-                </select>
-                <label for="Work-Time">Hours</label>
-                <input type="number" id="Work-Time" @bind-value="workTime" min="0" max="24" step="0.5" />
+        <div class="flex-container">
+            <label for="Work">Work</label>
+            <select id="Work" @bind="CaloricData.WorkLevel">
+                <option value="1,5">überwiegend sitzend, kaum Bewegung (z.B. Bürojob am Schreibtisch)</option>
+                <option value="2">größtenteils sitzend, teilweise stehend, gehend (z.B. Kraftfahrer, Student)</option>
+                <option value="3">überwiegend gehend, stehend (z.B. Verkäufer, Kellner, Hausfrau, Bäcker)</option>
+                <option value="4,5">körperlich anstrengend (z.B. Landwirte, Handwerker, Bergleute)</option>
+                <option value="6">körperlich sehr anstrengend (z.B. Umzugshelfer, Forstarbeiter)</option>
+            </select>
+            <input type="range" @bind-value="CaloricData.WorkDuration" min="0" max="24" step="0,5" />
+        </div>
 
-            </div>
+        <div class="flex-container">
+            <label for="Sleep">Sleep</label>
+            <input type="range" @bind-value="CaloricData.SleepDuration" min="0" max="24" step="0,5" />
 
-            <div class="flex-container">
-                <label for="Sleep">Sleep</label>
-                <input type="text" value="Schlaf" readonly id="Sleep" />
-                <label for="Sleep-Time">Hours</label>
-                <input type="number" id="Sleep-Time" @bind="sleepTime" min="0" max="24" step="0.5" />
-
-            </div>
+        </div>
 
             <div class="flex-container">
                 <button @onclick="() => OnAddClick()">Add</button>
@@ -119,7 +112,7 @@
 
             <div class="flex-container">
                 <label for="PAL-Result">PAL-Result</label>
-                <input type="text" readonly id="PAL-Result" value="@palResult" />
+                <input type="text" readonly id="PAL-Result" value="@CaloricData.PAL" />
             </div>
 
             <div class="flex-container">
@@ -136,38 +129,25 @@
 
     private const string green = "#1c7c00";
     private const string red = "#ff0000";
-
-    private int weight { get; set; }
-    private int height { get; set; }
-    private int age { get; set; }
-    private string gender = "m";
-
-    private string maintenanceResult = "";
-    private string palResult = "";
-    private bool palButtonDisabled => maintenanceResult == "" || maintenanceResult == "NaN";
-
     private string palMessage = "";
     private string maintenanceMessage = "";
 
     private string maintenanceMessageColor = "";
     private string palMessageColor = "";
 
-    List<Excercise> Excercises = new List<Excercise>();
+    private bool palButtonDisabled => CaloricData.Maintenance == 0;
 
-    double workLevel = 0;
-    double workTime = 0;
-
-    double sleepTime = 0;
-
+    private CaloricData CaloricData = new CaloricData();
+    
 
     protected override void OnInitialized()
     {
-        age = 24;
-        height = 183;
-        weight = 69;
+        CaloricData.Age = 24;
+        CaloricData.Height = 183.0;
+        CaloricData.Weight = 69.0;
+        CaloricData.Gender = Enums.Gender.Male;
 
-
-        Excercises.Add(new Excercise()
+        CaloricData.Excercises.Add(new Excercise()
         {
             PAL = 4,
             Time = 0,
@@ -176,20 +156,25 @@
 
     private void OnCalculateMaintenanceClick()
     {
-        if (weight > 0 && height > 0 && age > 0)
+        if (CaloricData.Weight > 0 && CaloricData.Height > 0 && CaloricData.Age > 0)
         {
-
             maintenanceMessageColor = green;
             maintenanceMessage = "";
 
-            switch (gender)
+            switch (CaloricData.Gender)
             {
-                case "m":
-                    maintenanceResult = Math.Round((9.99 * weight) + (6.25 * height) - (4.92 * age) + 5).ToString();
+                case Enums.Gender.Male:
+
+                    var maleResult = Math.Round((9.99 * CaloricData.Weight) + (6.25 * CaloricData.Height) - (4.92 * CaloricData.Age) + 5).ToString();
+                    int.TryParse(maleResult, out int maleValue);
+                    CaloricData.Maintenance = maleValue;
                     break;
 
-                case "f":
-                    maintenanceResult = Math.Round((9.99 * weight) + (6.25 * height) - (4.92 * age) - 161).ToString();
+                case Enums.Gender.Female:
+                    var femaleResult = Math.Round((9.99 * CaloricData.Weight) + (6.25 * CaloricData.Height) - (4.92 * CaloricData.Age) - 161).ToString();
+                    int.TryParse(femaleResult, out int femaleValue);
+                    CaloricData.Maintenance = femaleValue;
+
                     break;
 
                 default:
@@ -200,7 +185,7 @@
         {
             maintenanceMessageColor = red;
             maintenanceMessage = "Invalid Inputs detected";
-            maintenanceResult = "NaN";
+            CaloricData.Maintenance = 0;
         }
     }
 
@@ -209,35 +194,35 @@
         double timeTotal = 0;
         double levelTotal = 0;
 
-        foreach (Excercise excercise in Excercises)
+        foreach (Excercise excercise in CaloricData.Excercises)
         {
             timeTotal += excercise.Time;
             levelTotal += excercise.PAL * excercise.Time;
         }
 
-        levelTotal += sleepTime * 0.95;
-        timeTotal += sleepTime;
+        levelTotal += CaloricData.SleepDuration * 0.95;
+        timeTotal += CaloricData.SleepDuration;
 
-        levelTotal += workTime * workLevel;
-        timeTotal += workTime;
+        levelTotal += CaloricData.WorkDuration * CaloricData.WorkLevel;
+        timeTotal += CaloricData.WorkDuration;
 
         if (timeTotal > 24)
         {
             palMessageColor = red;
             palMessage = "Time is more than 24 Hours";
-            palResult = "NaN";
+            CaloricData.PAL = 0;
         }
         else
         {
             levelTotal += (24 - timeTotal) * 1.2;
             levelTotal /= 24;
-            int.TryParse(maintenanceResult, out int result);
 
-            var palResultNumber = result + ((levelTotal - 1) * result);
+            var palResultNumber = CaloricData.Maintenance + ((levelTotal - 1) * CaloricData.Maintenance);
+            var palResultString = Math.Round(palResultNumber).ToString();
 
-            palResultNumber = Math.Round(palResultNumber);
+            int.TryParse(palResultString, out int result);
 
-            palResult = palResultNumber.ToString();
+            CaloricData.PAL = result;
         }
     }
 
@@ -249,16 +234,27 @@
             Time = 0,
         };
 
-        Excercises.Add(excercise);
+        CaloricData.Excercises.Add(excercise);
 
         StateHasChanged();
     }
 
     private void OnHeightChange(ChangeEventArgs e)
     {
-        int.TryParse(e.Value.ToString(), out int value);
+        double.TryParse(e.Value.ToString(), out double value);
+        CaloricData.Height = value;
+    }
 
-        height = value;
+    private void OnWeightChange(ChangeEventArgs e)
+    {
+        double.TryParse(e.Value.ToString(), out double value);
+        CaloricData.Weight = value;
+    }
+
+    private void OnAgeChange(ChangeEventArgs e)
+    {
+        int.TryParse(e.Value.ToString(), out int value);
+        CaloricData.Age = value;
     }
 
 }
