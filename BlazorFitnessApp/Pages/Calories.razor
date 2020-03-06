@@ -81,32 +81,34 @@
                         <option value="7,5">Other - high intensity</option>
                         <option value="9">Other - very high intensity</option>
                     </select>
-                    <input type="range" @bind-value="excercise.Time" min="0" max="24" step="0,5" />
+                    <input type="range" @bind-value="excercise.Time" @oninput="(e) => OnExcerciseTimeChange(e, excercise)" min="0" max="24" step="0,5" />
+                    <p>@excercise.Time</p>
                 </div>
             }
-
-        <div class="flex-container">
-            <label for="Work">Work</label>
-            <select id="Work" @bind="CaloricData.WorkLevel">
-                <option value="1,5">überwiegend sitzend, kaum Bewegung (z.B. Bürojob am Schreibtisch)</option>
-                <option value="2">größtenteils sitzend, teilweise stehend, gehend (z.B. Kraftfahrer, Student)</option>
-                <option value="3">überwiegend gehend, stehend (z.B. Verkäufer, Kellner, Hausfrau, Bäcker)</option>
-                <option value="4,5">körperlich anstrengend (z.B. Landwirte, Handwerker, Bergleute)</option>
-                <option value="6">körperlich sehr anstrengend (z.B. Umzugshelfer, Forstarbeiter)</option>
-            </select>
-            <input type="range" @bind-value="CaloricData.WorkDuration" min="0" max="24" step="0,5" />
-        </div>
-
-        <div class="flex-container">
-            <label for="Sleep">Sleep</label>
-            <input type="range" @bind-value="CaloricData.SleepDuration" min="0" max="24" step="0,5" />
-
-        </div>
 
             <div class="flex-container">
                 <button @onclick="() => OnAddClick()">Add</button>
             </div>
 
+
+            <div class="flex-container">
+                <label for="Work">Work</label>
+                <select id="Work" @bind="CaloricData.WorkLevel">
+                    <option value="1,5">überwiegend sitzend, kaum Bewegung</option>
+                    <option value="2">größtenteils sitzend, teilweise stehend, gehend</option>
+                    <option value="3">überwiegend gehend, stehend</option>
+                    <option value="4,5">körperlich anstrengend</option>
+                    <option value="6">körperlich sehr anstrengend</option>
+                </select>
+                <input type="range" @bind-value="CaloricData.WorkDuration" @oninput="(e) => OnWorkDurationChange(e)" min="0" max="24" step="0,5" />
+                <p>@CaloricData.WorkDuration</p>
+            </div>
+
+            <div class="flex-container">
+                <label for="Sleep">Sleep</label>
+                <input type="range" @bind-value="CaloricData.SleepDuration" @oninput="(e) => OnSleepDurationChange(e)" min="0" max="24" step="0,5" />
+                <p>@CaloricData.SleepDuration</p>
+            </div>
 
             <p id="pal-message" style="color:@palMessageColor">@palMessage</p>
 
@@ -116,8 +118,7 @@
             </div>
 
             <div class="flex-container">
-                <button disabled="@palButtonDisabled" @onclick="() => OnPALCalculateClick()">PAL</button>
-                <em><p style="color:@green">@(palButtonDisabled ? "Calculate Maintenance First!" : "")</p></em>
+                <button @onclick="() => OnPALCalculateClick()">PAL</button>
             </div>
 
         </div>
@@ -146,6 +147,9 @@
         CaloricData.Height = 183.0;
         CaloricData.Weight = 69.0;
         CaloricData.Gender = Enums.Gender.Male;
+
+        CaloricData.WorkLevel = 1.5;
+        CaloricData.WorkDuration = 8;
 
         CaloricData.Excercises.Add(new Excercise()
         {
@@ -191,6 +195,9 @@
 
     private void OnPALCalculateClick()
     {
+
+        OnCalculateMaintenanceClick();
+
         double timeTotal = 0;
         double levelTotal = 0;
 
@@ -257,4 +264,21 @@
         CaloricData.Age = value;
     }
 
+    private void OnExcerciseTimeChange(ChangeEventArgs e, Excercise excercise)
+    {
+        double.TryParse(e.Value.ToString(), out double value);
+        excercise.Time = value;
+    }
+
+    private void OnSleepDurationChange(ChangeEventArgs e)
+    {
+        double.TryParse(e.Value.ToString(), out double value);
+        CaloricData.SleepDuration = value;
+    }
+
+    private void OnWorkDurationChange(ChangeEventArgs e)
+    {
+        double.TryParse(e.Value.ToString(), out double value);
+        CaloricData.WorkDuration = value;
+    }
 }
