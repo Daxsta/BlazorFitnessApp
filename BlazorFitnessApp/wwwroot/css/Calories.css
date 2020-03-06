@@ -1,0 +1,54 @@
+﻿* {
+  box-sizing: border-box; }
+
+#calories-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); }
+
+.calculator {
+  margin: 10px; }
+
+#maintenance-calculator {
+  background-color: #808080; }
+
+#pal-calculator {
+  background-color: #ffffff; }
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 10px; }
+
+.flex-container > * {
+  flex-grow: 1;
+  flex-shrink: 1; }
+
+.flex-container > label {
+  width: 100px; }
+
+.flex-container > input[type="text"] {
+  width: 200px; }
+
+.flex-container > select {
+  width: 250px; }
+
+.flex-container > input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+  background: #666;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  margin: 10px;
+  flex-basis: 400px; }
+
+.flex-container > input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #0dc4b4;
+  cursor: pointer; }
