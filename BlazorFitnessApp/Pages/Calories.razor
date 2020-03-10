@@ -1,128 +1,130 @@
 ﻿@page "/calories"
 
 @using BlazorFitnessApp.Models
+@using System.Globalization;
 
-    <div id="calories-content">
+<div id="calories-content">
 
-        <div id="maintenance-calculator" class="calculator">
+    <div id="maintenance-calculator" class="calculator">
 
-            <div class="flex-container">
-                <label for="Height">Height</label>
-                <input type="range" min="80" max="240" step="0,5" class="slider" @bind-value="CaloricData.Height" @oninput="(e) => OnHeightChange(e)" />
-                <p>@CaloricData.Height</p>
-            </div>
 
-            <div class="flex-container">
-                <label for="Weight">Weight</label>
-                <input type="range" min="30" max="150" step="0,5" class="slider" @bind-value="CaloricData.Weight" @oninput="(e) => OnWeightChange(e)"/>
-                <p>@CaloricData.Weight</p>
-            </div>
-
-            <div class="flex-container">
-                <label for="Age">Age</label>
-                <input type="range" min="18" max="99" step="1" class="slider" @bind-value="CaloricData.Age" @oninput="(e) => OnAgeChange(e)" />
-                <p>@CaloricData.Age</p>
-            </div>
-
-            <div class="flex-container">
-                <label for="Gender">Gender</label>
-                <select @bind="CaloricData.Gender" id="Gender">
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                </select>
-            </div>
-
-            <p id="maintenance-message" style="color:@maintenanceMessageColor">@maintenanceMessage</p>
-
-            <div class="flex-container">
-                <label for="Result">Result</label>
-                <input type="text" readonly id="Result" value="@CaloricData.Maintenance" />
-            </div>
-
-            <div class="flex-container">
-                <button @onclick="() => OnCalculateMaintenanceClick()">Result</button>
-            </div>
-
+        <div class="flex-container">
+            <label for="Height">Height</label>
+            <input type="range" min="80" max="240" step="0.5" class="slider" @bind-value="CaloricData.Height" @oninput="(e) => OnHeightChange(e)" />
+            <p>@CaloricData.Height.ToString("#.0")</p>
         </div>
 
-        <div id="pal-calculator" class="calculator">
-
-            @foreach (Excercise excercise in CaloricData.Excercises)
-            {
-                <div class="flex-container">
-                    <label>Excercise</label>
-                    <select @bind="excercise.PAL">
-                        <option value="4" selected>Cycling 12km/h</option>
-                        <option value="6">Cycling 16km/h</option>
-                        <option value="8">Cycling 20km/h</option>
-                        <option value="10">Cycling 24km/h</option>
-                        <option value="12">Cycling 28km/h</option>
-                        <option value="6">Swimming-slow</option>
-                        <option value="8">Swimming-medium</option>
-                        <option value="10">Swimming-fast</option>
-                        <option value="3">Walking, Nordic Walking 4km/h</option>
-                        <option value="3,8">Walking, Nordic Walking 5.5km/h</option>
-                        <option value="6,3">Walking, Nordic Walking 7km/h</option>
-                        <option value="8">Walking, Nordic Walking 8km/h</option>
-                        <option value="6">Jogging 6km/h</option>
-                        <option value="8,3">Jogging 8km/h</option>
-                        <option value="10">Jogging 10km/h</option>
-                        <option value="11,8">Jogging 12km/h</option>
-                        <option value="13,5">Jogging 14km/h</option>
-                        <option value="6,5">Aerobics, Gymnastic</option>
-                        <option value="7,5">Strength Training</option>
-                        <option value="7">Tennis, Badminton, Squash</option>
-                        <option value="7,5">Team Sports(Football, Soccer, Basketball...)</option>
-                        <option value="8">Martial Arts</option>
-                        <option value="8">Winter Sports</option>
-                        <option value="3">Other - very low intensity</option>
-                        <option value="4,5">Other - low intensity</option>
-                        <option value="6">Other - medium intensity</option>
-                        <option value="7,5">Other - high intensity</option>
-                        <option value="9">Other - very high intensity</option>
-                    </select>
-                    <input type="range" @bind-value="excercise.Time" @oninput="(e) => OnExcerciseTimeChange(e, excercise)" min="0" max="24" step="0,5" />
-                    <p>@excercise.Time</p>
-                </div>
-            }
-
-            <div class="flex-container">
-                <button @onclick="() => OnAddClick()">Add</button>
-            </div>
-
-
-            <div class="flex-container">
-                <label for="Work">Work</label>
-                <select id="Work" @bind="CaloricData.WorkLevel">
-                    <option value="1,5">überwiegend sitzend, kaum Bewegung</option>
-                    <option value="2">größtenteils sitzend, teilweise stehend, gehend</option>
-                    <option value="3">überwiegend gehend, stehend</option>
-                    <option value="4,5">körperlich anstrengend</option>
-                    <option value="6">körperlich sehr anstrengend</option>
-                </select>
-                <input type="range" @bind-value="CaloricData.WorkDuration" @oninput="(e) => OnWorkDurationChange(e)" min="0" max="24" step="0,5" />
-                <p>@CaloricData.WorkDuration</p>
-            </div>
-
-            <div class="flex-container">
-                <label for="Sleep">Sleep</label>
-                <input type="range" @bind-value="CaloricData.SleepDuration" @oninput="(e) => OnSleepDurationChange(e)" min="0" max="24" step="0,5" />
-                <p>@CaloricData.SleepDuration</p>
-            </div>
-
-            <p id="pal-message" style="color:@palMessageColor">@palMessage</p>
-
-            <div class="flex-container">
-                <label for="PAL-Result">PAL-Result</label>
-                <input type="text" readonly id="PAL-Result" value="@CaloricData.PAL" />
-            </div>
-
-            <div class="flex-container">
-                <button @onclick="() => OnPALCalculateClick()">PAL</button>
-            </div>
-
+        <div class="flex-container">
+            <label for="Weight">Weight</label>
+            <input type="range" min="30" max="150" step="0.5" class="slider" @bind-value="CaloricData.Weight" @oninput="(e) => OnWeightChange(e)" />
+            <p>@CaloricData.Weight.ToString("#.0")</p>
         </div>
+
+        <div class="flex-container">
+            <label for="Age">Age</label>
+            <input type="range" min="18" max="99" step="1" class="slider" @bind-value="CaloricData.Age" @oninput="(e) => OnAgeChange(e)" />
+            <p>@CaloricData.Age.ToString("#.0")</p>
+        </div>
+
+        <div class="flex-container">
+            <label for="Gender">Gender</label>
+            <select @bind="CaloricData.Gender" id="Gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+        </div>
+
+        <p id="maintenance-message" style="color:@maintenanceMessageColor">@maintenanceMessage</p>
+
+        <div class="flex-container">
+            <label for="Result">Result</label>
+            <input type="text" readonly id="Result" value="@CaloricData.Maintenance" />
+        </div>
+
+        <div class="flex-container">
+            <button @onclick="() => OnCalculateMaintenanceClick()">Result</button>
+        </div>
+
     </div>
+
+    <div id="pal-calculator" class="calculator">
+
+        @foreach (Excercise excercise in CaloricData.Excercises)
+        {
+            <div class="flex-container">
+                <label>Excercise</label>
+                <select @bind="excercise.PAL">
+                    <option value="4" selected>Cycling 12km/h</option>
+                    <option value="6">Cycling 16km/h</option>
+                    <option value="8">Cycling 20km/h</option>
+                    <option value="10">Cycling 24km/h</option>
+                    <option value="12">Cycling 28km/h</option>
+                    <option value="6">Swimming-slow</option>
+                    <option value="8">Swimming-medium</option>
+                    <option value="10">Swimming-fast</option>
+                    <option value="3">Walking, Nordic Walking 4km/h</option>
+                    <option value="3.8">Walking, Nordic Walking 5.5km/h</option>
+                    <option value="6.3">Walking, Nordic Walking 7km/h</option>
+                    <option value="8">Walking, Nordic Walking 8km/h</option>
+                    <option value="6">Jogging 6km/h</option>
+                    <option value="8.3">Jogging 8km/h</option>
+                    <option value="10">Jogging 10km/h</option>
+                    <option value="11.8">Jogging 12km/h</option>
+                    <option value="13.5">Jogging 14km/h</option>
+                    <option value="6.5">Aerobics, Gymnastic</option>
+                    <option value="7.5">Strength Training</option>
+                    <option value="7">Tennis, Badminton, Squash</option>
+                    <option value="7.5">Team Sports(Football, Soccer, Basketball...)</option>
+                    <option value="8">Martial Arts</option>
+                    <option value="8">Winter Sports</option>
+                    <option value="3">Other - very low intensity</option>
+                    <option value="4.5">Other - low intensity</option>
+                    <option value="6">Other - medium intensity</option>
+                    <option value="7.5">Other - high intensity</option>
+                    <option value="9">Other - very high intensity</option>
+                </select>
+                <input type="range" @bind-value="excercise.Time" @oninput="(e) => OnExcerciseTimeChange(e, excercise)" min="0" max="24" step="0,5" />
+                <p>@excercise.Time</p>
+            </div>
+        }
+
+        <div class="flex-container">
+            <button @onclick="() => OnAddClick()">Add</button>
+        </div>
+
+
+        <div class="flex-container">
+            <label for="Work">Work</label>
+            <select id="Work" @bind="CaloricData.WorkLevel">
+                <option value="1.5">überwiegend sitzend, kaum Bewegung</option>
+                <option value="2">größtenteils sitzend, teilweise stehend, gehend</option>
+                <option value="3">überwiegend gehend, stehend</option>
+                <option value="4.5">körperlich anstrengend</option>
+                <option value="6">körperlich sehr anstrengend</option>
+            </select>
+            <input type="range" @bind-value="CaloricData.WorkDuration" @oninput="(e) => OnWorkDurationChange(e)" min="0" max="24" step="0.5" />
+            <p>@CaloricData.WorkDuration.ToString("#.0")</p>
+        </div>
+
+        <div class="flex-container">
+            <label for="Sleep">Sleep</label>
+            <input type="range" @bind-value="CaloricData.SleepDuration" @oninput="(e) => OnSleepDurationChange(e)" min="0" max="24" step="0.5" />
+            <p>@CaloricData.SleepDuration.ToString("#.0")</p>
+        </div>
+
+        <p id="pal-message" style="color:@palMessageColor">@palMessage</p>
+
+        <div class="flex-container">
+            <label for="PAL-Result">PAL-Result</label>
+            <input type="text" readonly id="PAL-Result" value="@CaloricData.PAL" />
+        </div>
+
+        <div class="flex-container">
+            <button @onclick="() => OnPALCalculateClick()">PAL</button>
+        </div>
+
+    </div>
+</div>
 
 
 
@@ -139,7 +141,7 @@
     private bool palButtonDisabled => CaloricData.Maintenance == 0;
 
     private CaloricData CaloricData = new CaloricData();
-    
+
 
     protected override void OnInitialized()
     {
@@ -150,11 +152,12 @@
 
         CaloricData.WorkLevel = 1.5;
         CaloricData.WorkDuration = 8;
+        CaloricData.SleepDuration = 7;
 
         CaloricData.Excercises.Add(new Excercise()
         {
-            PAL = 4,
-            Time = 0,
+            PAL = 7.5,
+            Time = 1,
         });
     }
 
